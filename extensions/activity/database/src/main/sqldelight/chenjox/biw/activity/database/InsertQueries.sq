@@ -1,0 +1,44 @@
+
+insertNewChannel:
+INSERT OR IGNORE INTO Channels(channel_snowflake)
+VALUES (?);
+
+insertNewAttachment:
+INSERT INTO Attachments(attachment_snowflake, attachment_name, attachment_byte_size)
+VALUES (?,?,?);
+
+insertPseudoUser:
+INSERT OR IGNORE INTO PseudoUsers(user_hash)
+VALUES (?);
+
+insertThread:
+INSERT INTO Threads(thread_snowflake, thread_channel_fk_id, thread_creator_fk_id)
+VALUES(
+?,
+(SELECT channel_id FROM Channels WHERE channel_snowflake = ?),
+(SELECT user_id FROM PseudoUsers WHERE user_hash = ?)
+);
+
+-- Message stuff
+
+insertMessage:
+INSERT INTO Messages(message_snowflake, message_channel_fk_id, message_byte_size, message_user_fk_id)
+VALUES (?,
+(SELECT channel_id FROM Channels WHERE channel_snowflake = ?),
+ ?,
+(SELECT user_id FROM PseudoUsers WHERE user_hash = ?));
+
+insertMessageChange:
+INSERT INTO MessageChanges(message_fk_id)
+SELECT message_id FROM Messages WHERE message_snowflake = ?;
+
+insertMessageDeletion:
+INSERT INTO MessageDeletions(message_fk_id)
+SELECT message_id FROM Messages WHERE message_snowflake = ?;
+
+insertMessageAttachment:
+INSERT INTO MessageAttachments(message_fk_id, attachment_fk_id)
+VALUES(
+(SELECT message_id FROM Messages WHERE message_snowflake = ?),
+(SELECT attachment_id FROM Attachments WHERE attachment_snowflake = ?)
+);

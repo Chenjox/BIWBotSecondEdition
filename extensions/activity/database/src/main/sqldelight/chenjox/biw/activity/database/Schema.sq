@@ -1,0 +1,48 @@
+
+CREATE TABLE IF NOT EXISTS Attachments (
+    attachment_id INTEGER NOT NULL PRIMARY KEY,
+    attachment_snowflake INTEGER NOT NULL,
+    attachment_name TEXT NOT NULL,
+    attachment_byte_size INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS MessageAttachments (
+    message_attachment_id INTEGER NOT NULL PRIMARY KEY,
+    message_fk_id INTEGER NOT NULL REFERENCES Messages(message_id),
+    attachment_fk_id INTEGER NOT NULL REFERENCES Attachments(attachment_id)
+);
+
+CREATE TABLE IF NOT EXISTS PseudoUsers (
+    user_id INTEGER NOT NULL PRIMARY KEY,
+    user_hash INTEGER NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS Messages (
+    message_id INTEGER NOT NULL PRIMARY KEY,
+    message_snowflake INTEGER NOT NULL,
+    message_channel_fk_id INTEGER NOT NULL REFERENCES Channels(channel_id),
+    message_byte_size INTEGER NOT NULL,
+    message_user_fk_id INTEGER NOT NULL REFERENCES PseudoUsers(user_id)
+);
+
+CREATE TABLE IF NOT EXISTS Threads (
+    thread_id INTEGER NOT NULL PRIMARY KEY,
+    thread_snowflake INTEGER NOT NULL,
+    thread_channel_fk_id INTEGER NOT NULL REFERENCES Channels(channel_id),
+    thread_creator_fk_id INTEGER NOT NULL REFERENCES PseudoUsers(user_id)
+);
+
+CREATE TABLE IF NOT EXISTS Channels (
+    channel_id INTEGER NOT NULL PRIMARY KEY,
+    channel_snowflake INTEGER NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS MessageChanges (
+    message_change_id INTEGER NOT NULL PRIMARY KEY,
+    message_fk_id INTEGER NOT NULL REFERENCES Messages(message_id)
+);
+
+CREATE TABLE IF NOT EXISTS MessageDeletions (
+    message_delete_id INTEGER NOT NULL PRIMARY KEY,
+    message_fk_id INTEGER NOT NULL REFERENCES Messages(message_id)
+);

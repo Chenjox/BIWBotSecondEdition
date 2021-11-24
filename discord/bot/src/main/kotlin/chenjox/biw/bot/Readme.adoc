@@ -1,0 +1,41 @@
+= BIW Bot
+
+Herzlich willkommen im Herzstück des BIW Bots, hier wird ihm ein Token übermittelt,
+die Erweiterungen werden eingefügt und er verbindet sich mit dem Server.
+
+== Config
+
+[source,toml]
+----
+[bot]
+token = "TOKEN HERE"
+ownerId = 123456789123456
+
+[appointment]
+location = "botdata/dates.json"
+backupPath = "botdata/backupDates.json"
+guildId = 123456789123456
+allowedRoles = [
+   895662608718364702,
+   895663195849637968,
+   895666664576782367,
+   770225949408493569
+]
+
+[cloud]
+location = "wiki"
+guildId = 123456789123456
+uploadAccess.allowedRoles = [
+    896172450461659157
+]
+downloadAccess.allowedRoles = [
+    895662608718364702,
+    895663195849637968,
+    895666664576782367,
+    770225949408493569
+]
+
+[activity]
+guildId = 123456789123456
+location = "activity/database.db"
+----

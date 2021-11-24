@@ -1,0 +1,105 @@
+= BIWBot
+:toc:
+
+Current Version: `2.0-ALPHA`
+
+IMPORTANT: English version below!
+
+== Deutsch
+
+Dies ist das Repository des BIWBots, welcher für einen kleinen Community Server geschrieben worden ist.
+Da es eine Community von Bauingenieuren ist, kann dieser Bot gewisse Dinge lösen.
+
+=== Der momentane Leistungsumfang
+
+Der Discord Bot ist aus gewissen Anforderungen gewachsen, welche sich aus der zunehmenden Zuhause-Sein-Notwendigkeit im Rahmen der Corona-Pandemie ergeben hat. Es ist die mittlerweile 3. Iteration dieses Projekts.
+
+Terminplanung::
+Mithilfe des Terminplaners können Termine gespeichert und angezeigt werden.
+Das Modul verantwortlich für die Terminplanung ist unter `extensions:date` zu finden.
+Für mehr Informationen sollte die dortige `README` gelesen werden.
+
+Datenspeicher::
+Mithilfe des Datenspeichers können einige Dateien hochgeladen werden, damit sie leichter verfügbar sind als Dateien die irgendwann im Chat hochgeladen worden sind. Bietet eine nette Benutzeroberfläche für das hochladen und herunterladen.
+Das Modul verantwortlich für die Terminplanung ist unter `extensions:cloud` zu finden.
+Für mehr Informationen sollte die dortige `README` gelesen werden.
+
+Aktivitätsmessung::
+Mithilfe der Aktivitätsmessung werden auf Kanalbasis Daten über deren Benutzung erhoben.
+Sie ermöglicht den Administratoren auf lange Sicht einen Überblick über die meist genutzten Kanäle zu bekommen, um diese Nutzerfreundlicher zu machen.
+Die Module verantwortlich für die Aktivitätsplanung ist unter `extensions:activity` zu finden.
+Für mehr Informationen sollte die dortige `README` gelesen werden.
+
+=== Umsetzung
+
+Der Bot wurde ausschließlich in *Kotlin* geschrieben, unter Benutzung der großartigen Bibliothek link:https://github.com/Kord-Extensions/kord-extensions[Kordex].
+
+Der Buildprozess wird mit dem Tool link:https://gradle.org/[Gradle] realisiert, über dieses werden auch die Abhängigkeiten verwaltet.
+
+=== Todos
+
+Folgende Liste an Features müsste noch implementiert werden.
+
+- [ ] Tragwerksberechnung
+- [ ] Rollenvergabe
+- [ ] Zugang zu den Aktivitätsdaten ermöglichen
+** Einfache Auswertungen direkt im Discord anbieten.
+- [ ] Flexiblere Konfigurationsmöglichkeiten
+
+=== Wenn man ihn selbst benutzen möchte
+
+Um den Bot selbst zu benutzen bedarf es folgender Schritte
+
+1. Den `discord:bot:shadow:shadow` Gradle Task ausführen
+2. Die entstandene `shadow.jar` in `discord/bot/build/libs` kopieren und in ein passendes Verzeichnis verschieben
+3. Anschließend eine Datei namens `config.toml` im gleichen Verzeichnis anlegen mit folgendem Inhalt
++
+[source,toml]
+----
+[bot]
+token = "TOKEN HERE"
+ownerId = 123456789123456 # Owner Snowflake
+
+[appointment]
+location = "botdata/dates.json"
+backupPath = "botdata/backupDates.json"
+guildId = 123456789123456 # Guild Snowflake
+allowedRoles = [
+   123456789123456, # Role Snowflake
+   123456789123456,
+   123456789123456,
+   123456789123456
+]
+
+[cloud]
+location = "wiki"
+guildId = 123456789123456 # Guild Snowflake
+uploadAccess.allowedRoles = [
+    123456789123456 # Role Snowflake
+]
+downloadAccess.allowedRoles = [
+    123456789123456, # Role Snowflake
+    123456789123456,
+    123456789123456,
+    123456789123456
+]
+
+[activity]
+guildId = 123456789123456 # Guild Snowflake
+location = "activity/database.db"
+----
++
+4. Starten des Bots mit `java -jar "shadow.jar"`
+
+Für weitere Informationen sehe man das entsprechende Modul an.
+
+== English
+
+This is the Repository for the BIWBot, which was written for a small community server.
+Because this is a community of civil engineers, this bot can solve problems related to that field of study.
+
+=== What it can do
+
+=== Implementation
+
+=== Build it yourself!
